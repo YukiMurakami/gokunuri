@@ -1,4 +1,4 @@
-#include "players.hpp"
+w#include "players.hpp"
 #include <unistd.h>
 #include <cstdlib>
 #include <map>
@@ -304,6 +304,9 @@ void GameInfo::tryAction
     int SpearDistance = abs(me.curX - samuraiInfo[0].curX) + abs(me.curY - samuraiInfo[0].curY);
     int SwordDistance = abs(me.curX - samuraiInfo[1].curX) + abs(me.curY - samuraiInfo[1].curY);
     int AxeDistance = abs(me.curX - samuraiInfo[2].curX) + abs(me.curY - samuraiInfo[2].curY);
+    
+    
+    int distanceFromCenter = abs(width/2 - me.curX) + abs(height/2 - me.curY);
 
   evalParams.clear();
   evalParams.insert(map<string,int>::value_type("territory",territory));
@@ -316,6 +319,8 @@ void GameInfo::tryAction
     evalParams.insert(map<string,int>::value_type("spearFriendDistance",SpearDistance));
     evalParams.insert(map<string,int>::value_type("swordFriendDistance",SwordDistance));
     evalParams.insert(map<string,int>::value_type("axeFriendDistance",AxeDistance));
+    evalParams.insert(map<string,int>::value_type("distanceFromCenter",distanceFromCenter));
+    
     
     
 }
