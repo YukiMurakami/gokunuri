@@ -121,7 +121,7 @@ struct gokunuri: Player {
     currentPlay.clear();
     bestMerits = -1;
 	bestPlays.clear();
-	readSettings("setting/gokunuri_recipe.txt", info.weapon+info.side*3); // read setting file
+	readSettings("setting/gokunuri.recipe", info.weapon+info.side*3); // read setting file
 
     plan(info, info.samuraiInfo[info.weapon], 7, 0);
 
