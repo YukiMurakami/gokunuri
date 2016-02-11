@@ -2,6 +2,7 @@
 #include <unistd.h>
 #include <cstdlib>
 #include <map>
+#include <vector>
 
 bool logging = false;
 
@@ -220,7 +221,11 @@ void Undo::apply() {
 void GameInfo::tryAction
 (int action, Undo& undo, map<string,int> &evalParams) {
   int territory,selfTerritory,injury,hiding;
-  SamuraiInfo& me = samuraiInfo[weapon];
+    int move;
+    SamuraiInfo& me = samuraiInfo[weapon];
+    int nowX = me.curX;
+    int nowY = me.curY;
+    
   territory = selfTerritory = injury = hiding = 0;
   switch (action) {
   case 1: case 2: case 3: case 4: { // occupation
@@ -293,12 +298,26 @@ void GameInfo::tryAction
     hiding -= 1;
     break;
   }
+    
+    move = abs(me.curX - nowX) + abs(me.curY - nowY);
+    
+    int SpearDistance = abs(me.curX - samuraiInfo[0].curX) + abs(me.curY - samuraiInfo[0].curY);
+    int SwordDistance = abs(me.curX - samuraiInfo[1].curX) + abs(me.curY - samuraiInfo[1].curY);
+    int AxeDistance = abs(me.curX - samuraiInfo[2].curX) + abs(me.curY - samuraiInfo[2].curY);
 
   evalParams.clear();
   evalParams.insert(map<string,int>::value_type("territory",territory));
   evalParams.insert(map<string,int>::value_type("selfTerritory",selfTerritory));
   evalParams.insert(map<string,int>::value_type("injury",injury));
   evalParams.insert(map<string,int>::value_type("hiding",hiding));
+    evalParams.insert(map<string,int>::value_type("moveDistance",move));
+    evalParams.insert(map<string,int>::value_type("nowX",me.curX));
+    evalParams.insert(map<string,int>::value_type("nowY",me.curY));
+    evalParams.insert(map<string,int>::value_type("spearFriendDistance",SpearDistance));
+    evalParams.insert(map<string,int>::value_type("swordFriendDistance",SwordDistance));
+    evalParams.insert(map<string,int>::value_type("axeFriendDistance",AxeDistance));
+    
+    
 }
 
 void GameInfo::doAction(int action) {
