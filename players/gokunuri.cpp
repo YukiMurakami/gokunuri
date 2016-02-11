@@ -15,7 +15,11 @@ double territoryMerits = 1.;
 double selfTerritoryMerits = 0.3;
 double hurtingMerits = 0.1;
 double hidingMerits = 0.1;
-int cand = 1;
+double moveMerits = 0.1;
+double distanceFromSpearFriendMerits = 0.1;
+double distanceFromSwordFriendMerits = 0.1;
+double distanceFromAxeFriendMerits = 0.1;
+double distanceFromCenterMerits = 0.1;
 
 list<int> bestPlay;
 list<int> currentPlay;
@@ -63,7 +67,11 @@ struct gokunuri: Player {
 	selfTerritoryMerits = params[1];
 	hurtingMerits = params[2];
 	hidingMerits = params[3];
-	cand = (int)params[4];
+      moveMerits = params[4];
+      distanceFromSpearFriendMerits = params[5];
+      distanceFromSwordFriendMerits = params[6];
+      distanceFromAxeFriendMerits = params[7];
+      distanceFromCenterMerits = params[8];
   }
 
   void plan(GameInfo& info, SamuraiInfo& me, int power, double merits) {
@@ -89,10 +97,20 @@ struct gokunuri: Player {
     int selfTerritory = evalParams["selfTerritory"];
     int injury = evalParams["injury"];
     int hiding = evalParams["hiding"];
+          int move = evalParams["moveDistance"];
+          int spearFriendDistance = evalParams["spearFriendDistance"];
+          int swordFriendDistance = evalParams["swordFrinedDistance"];
+          int axeFriendDistance = evalParams["axeFriendDistance"];
+          int distanceFromCenter = evalParams["distanceFromCenter"];
 	double gain = territoryMerits*territory
 	  + selfTerritoryMerits*selfTerritory
 	  + hurtingMerits*injury
-	  + hidingMerits*hiding;
+	  + hidingMerits*hiding
+          + moveMerits*move
+          + distanceFromSpearFriendMerits*spearFriendDistance
+          + distanceFromSwordFriendMerits*swordFriendDistance
+          + distanceFromAxeFriendMerits*axeFriendDistance
+          + distanceFromCenterMerits*(14-distanceFromCenter);
 	plan(info, me, power-required[action], merits+gain);
 	undo.apply();
 	currentPlay.pop_back();
