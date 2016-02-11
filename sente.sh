@@ -1,7 +1,7 @@
 #!/bin/sh
 manager/gameManager \
-	-d dump \
-	-l log \
+	-d log/dump \
+	-l log/log \
 	-a players/gokunuri -p "" -u "" -n "gokunuri1" -r 1 -s 100 \
 	-a players/gokunuri -p "" -u "" -n "gokunuri2" -r 2 -s 98 \
 	-a players/gokunuri -p "" -u "" -n "gokunuri3" -r 3 -s 80 \
