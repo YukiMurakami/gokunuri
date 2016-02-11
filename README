@@ -1,0 +1,116 @@
+SamurAI 3x3 Game Manager (2016-01-06)
+
+NEWS:
+ Options and output specification are modified.
+ The communication interface with samurai AI programs is left unchaged.
+
+This directory should contain the source code of the SamurAI 3x3 game
+management system and several sample players, along with an example
+script for invoking the game system.
+
+1. Reporting Problems or Requesting Improvements
+
+When you find any problems with this system, please send an e-mail
+directed to the following.
+	 mailto:samurai2015-contact@ipsj.or.jp
+Requests for improvements of the system can also be sent to the above
+address.
+
+2. Installation
+
+The system is written in C++ and is meant to be compatible with C++11
+standard.  Simply issueing "make all" should work on many systems, but
+you possibly have to modify first several lines of Makefile in
+subdirectories "manager" and "players".
+
+As the system has only be tested with g++ 4.9.2 under Linux and
+Cygwin, it might not work on other systems.  Reports about
+working/non-working systems are most welcome.
+
+3. Game Manager
+
+The game manager system is in the subdirectory "manager".  By the
+installation procedure, an executable file with its name "gameManager"
+should result in this subdirectory, which is the main program of the
+game management system.
+
+4. Running the System
+
+The game manager executes a game among samurai AI programs specified
+in the command line options, and writes out a game log to the standard
+output.  The game log can be graphically visualized by a separate
+visualizer.
+
+An example of system invocation command can be found in the shell
+script "testmatch.sh".  This executes a game fought by several sample
+players.
+
+A number of command line options are specified, some of which are
+mandatory.
+
+   -h: Obtain the help message.
+
+ AI program invocation and control options:
+   -a <command>: Set invocation command for an AI,
+   -p <command>: Set command for posing an AI,
+   -u <command>: Set command for resuming an AI.
+   The options -a, -p, and -u should be specified for all six samurai.
+   These options are applied in their given order, that is,
+   the first -a option specifies the invocation command for the
+   samurai with its id 0, next -a option specifies that for samurai
+   with id 1, etc.
+
+ Information passing options:
+   -n <nickname>: Nickname of an AI,
+   -s <score>: Total score of an AI before this game,
+   -r <rank>: Rank of an AI before this game.
+   These options are applied in their given order.
+   When these options are missing, default values are used.
+
+ Debugging options:
+   -l <path>: Game log output to the specified path,
+   -d <path>: Dump AI program interface output.
+        Output path to samurai N is concatenation of <path> and N.
+	For example, when <path> is "dump", output goes to
+	  dump0 through dump5.
+
+ Output options:
+   -t: plain text output instead of JSON format.
+
+5. Sample Players
+
+Players are individual executable programs which are invoked from the
+game management system.  Some sample players are provided in the
+subdirectory "players".
+
+  randomPlayer: chooses actions randomly.
+  greedyPlayer: tries to occupy as many sections as possible with very
+    shallow search.
+
+These two players, especially the greedyPlayer, can be a good start
+point for writing your own player.  You may be surprised when you look
+into its source code "greedyPlayer.cpp", as it contains only four
+constants.
+
+The main program and several functions are in "players.cpp", which is
+used commonly in all the sample players.  An object of class "Player"
+is responsible for deciding the action of the samurai.  Different
+sample players only define different subclasses of the class "Player".
+
+The search code is in "planning.cpp", which defines the class
+"PlanningPlayer", a subclass of the class "Player".  This
+"PlanningPlayer" tries to maximize some evaluation function by
+choosing appropriate actions, and the four constants declared in the
+file "greedyplayer.cpp" are weights for different aspects of the
+result of actions.  You can describe a slightly different player by
+simply changing these weights.  For example, if you make
+"hurtingMerits" larger, your samurai will try more to occupy the
+section where an opponent samurai is.  If you make "hidingMerits"
+larger, your samurai prefer to hide itself.
+
+There are several other sample players, which are intended for
+testing the management system in handling misbehaving players.
+
+  timeoutPlayer: won't respond quickly enough.
+  tooActivePlayer: specifies too many actions.
+  nonCheckingPlayer: occasionally specifies invalid actions.
