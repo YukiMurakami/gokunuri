@@ -4,8 +4,6 @@ allSetting=setting/allSetting.txt
 result=log/results
 setting=setting/gokunuri_recipe.txt
 
-mkdir -p setting log
-
 function game() {
 	manager/gameManager \
 		-a players/gokunuri -p "" -u "" -n "gokunuri1" -r 1 -s 100 \
@@ -29,14 +27,16 @@ function winner2result() {
 	fi
 }
 
+mkdir -p setting log
+
 # generate setting file
 echo "generate setting file"
 rm $allSetting -f
-for teamMerit in 1 2 3 4 5; do
-	for myMerit in 1 2 3 4 5; do
+for teamMerit in 1 3 5; do
+	for myMerit in 1 3 5; do
 		for huntMerit in 100000; do
 			for hidingMerit in 1 5 10; do
-				for cand in 1 2 3; do
+				for cand in 1; do
 					echo "$teamMerit $myMerit $huntMerit $hidingMerit $cand" >> $allSetting
 				done
 			done
