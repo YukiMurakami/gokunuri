@@ -1,4 +1,4 @@
-w#include "players.hpp"
+#include "players.hpp"
 #include <unistd.h>
 #include <cstdlib>
 #include <map>
