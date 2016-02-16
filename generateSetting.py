@@ -51,7 +51,7 @@ def generateChildren(bestParams, weapon, amplitude):
     children = []
     for i in range(childNum):
         child = bestParams[:]*2
-        child[weapon] = [ bp * ( 1 + random.random() * amplitude ) for bp in bestParams[weapon] ]
+        child[weapon] = [ bp + random.uniform(-amplitude, amplitude) for bp in bestParams[weapon] ]
         children.append(child)
     return children
 

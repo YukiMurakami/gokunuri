@@ -10,11 +10,11 @@ settingInit=$setting.init
 initParam="1 1 1 1 1 1 1 1 1"
 weapon=0
 amplitude=1.0
-ratio=0.8
-childNum=5
-matchCount=5
+ratio=0.85
+childNum=10
+matchCount=10
 maxIter=100
-minAmplitude=0.1
+minAmplitude=0.2
 
 function game() {
 	manager/gameManager \
@@ -78,7 +78,7 @@ for iter in $(seq $maxIter); do
 			winner2result $(head -n 4 res | tail -n 1 | cut -d '"' -f 4) | sed -e "s/ /\n/g" > winner
 			paste -d " " $setting scores winner >> $result
 			while [ "$begin_line" = "$(wc $result -l)" ]; do
-				sleep 0.1s
+				sleep 0.05s
 			done
 		done
 	done

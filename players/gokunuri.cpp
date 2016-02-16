@@ -97,20 +97,24 @@ struct gokunuri: Player {
     int selfTerritory = evalParams["selfTerritory"];
     int injury = evalParams["injury"];
     int hiding = evalParams["hiding"];
-          int move = evalParams["moveDistance"];
-          int spearFriendDistance = evalParams["spearFriendDistance"];
-          int swordFriendDistance = evalParams["swordFrinedDistance"];
-          int axeFriendDistance = evalParams["axeFriendDistance"];
-          int distanceFromCenter = evalParams["distanceFromCenter"];
-	double gain = territoryMerits*territory
-	  + selfTerritoryMerits*selfTerritory
+	int move = evalParams["moveDistance"];
+	int spearFriendDistance = evalParams["spearFriendDistance"];
+	int swordFriendDistance = evalParams["swordFriendDistance"];
+	int axeFriendDistance = evalParams["axeFriendDistance"];
+	int distanceFromCenter = evalParams["distanceFromCenter"];
+
+	// clog << "ter " << territory << " sel " << selfTerritory << " inj " << injury << " hiding " << hiding << " move " << move << " spe " << spearFriendDistance << " swo " << swordFriendDistance << " axe " << axeFriendDistance << " cen " << distanceFromCenter << endl;
+	// clog << territoryMerits << " " << selfTerritoryMerits << " " << hidingMerits << " " << moveMerits << " " << distanceFromSpearFriendMerits << " " << distanceFromSwordFriendMerits << " " << distanceFromAxeFriendMerits << " " << distanceFromCenterMerits << " " << endl;
+
+	double gain = territoryMerits*territory/4.0
+	  + selfTerritoryMerits*selfTerritory/4.0
 	  + hurtingMerits*injury
 	  + hidingMerits*hiding
-          + moveMerits*move
-          + distanceFromSpearFriendMerits*spearFriendDistance
-          + distanceFromSwordFriendMerits*swordFriendDistance
-          + distanceFromAxeFriendMerits*axeFriendDistance
-          + distanceFromCenterMerits*(14-distanceFromCenter);
+	  + moveMerits*move
+	  + distanceFromSpearFriendMerits*spearFriendDistance
+	  + distanceFromSwordFriendMerits*swordFriendDistance
+	  + distanceFromAxeFriendMerits*axeFriendDistance
+	  + distanceFromCenterMerits*distanceFromCenter;
 	plan(info, me, power-required[action], merits+gain);
 	undo.apply();
 	currentPlay.pop_back();
