@@ -14,7 +14,7 @@ ratio=0.90
 childNum=5
 matchCount=20
 maxIter=50
-minAmplitude=0.9
+minAmplitude=0.2
 
 mkdir -p setting log
 
