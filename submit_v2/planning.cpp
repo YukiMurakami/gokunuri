@@ -23,12 +23,8 @@ struct PlanningPlayer: Player {
 	  info.isValidAt(action, me.curX, me.curY, me.hidden)) {
 	currentPlay.push_back(action);
 	Undo undo;
-    map<string,int> evalParams;
-    info.tryAction(action, undo, evalParams);
-    int territory = evalParams["territory"];
-    int selfTerritory = evalParams["selfTerritory"];
-    int injury = evalParams["injury"];
-    int hiding = evalParams["hiding"];
+	int territory, selfTerritory, injury, hiding;
+	info.tryAction(action, undo, territory, selfTerritory, injury, hiding);
 	double gain = territoryMerits*territory
 	  + selfTerritoryMerits*selfTerritory
 	  + hurtingMerits*injury

@@ -1,8 +1,6 @@
 #include "players.hpp"
 #include <unistd.h>
 #include <cstdlib>
-#include <map>
-#include <vector>
 
 bool logging = false;
 
@@ -219,13 +217,9 @@ void Undo::apply() {
 }
 
 void GameInfo::tryAction
-(int action, Undo& undo, map<string,int> &evalParams) {
-  int territory,selfTerritory,injury,hiding;
-    int move;
-    SamuraiInfo& me = samuraiInfo[weapon];
-    int nowX = me.curX;
-    int nowY = me.curY;
-
+(int action, Undo& undo,
+ int& territory, int& selfTerritory, int& injury, int& hiding) {
+  SamuraiInfo& me = samuraiInfo[weapon];
   territory = selfTerritory = injury = hiding = 0;
   switch (action) {
   case 1: case 2: case 3: case 4: { // occupation
@@ -298,41 +292,12 @@ void GameInfo::tryAction
     hiding -= 1;
     break;
   }
-
-    move = abs(me.curX - nowX) + abs(me.curY - nowY);
-
-	int distanceFriends[3];
-
-	for(int i=0;i<3;i++) {
-		if(i == weapon) {
-			distanceFriends[i] = 0;
-		}
-		else {
-		  distanceFriends[i] = abs(me.curX - samuraiInfo[i].curX) + abs(me.curY - samuraiInfo[i].curY) - abs(nowX - samuraiInfo[i].curX) - abs(nowY - samuraiInfo[i].curY);
-		}
-	}
-
-    int distanceFromCenter = -abs(width/2 - me.curX) - abs(height/2 - me.curY) + abs(width/2 - nowX) + abs(height/2 - nowY);
-
-	evalParams.clear();
-	evalParams.insert(map<string,int>::value_type("territory",territory));
-	evalParams.insert(map<string,int>::value_type("selfTerritory",selfTerritory));
-	evalParams.insert(map<string,int>::value_type("injury",injury));
-	evalParams.insert(map<string,int>::value_type("hiding",hiding));
-    evalParams.insert(map<string,int>::value_type("moveDistance",move));
-    evalParams.insert(map<string,int>::value_type("nowX",me.curX));
-    evalParams.insert(map<string,int>::value_type("nowY",me.curY));
-    evalParams.insert(map<string,int>::value_type("spearFriendDistance",distanceFriends[0]));
-    evalParams.insert(map<string,int>::value_type("swordFriendDistance",distanceFriends[1]));
-    evalParams.insert(map<string,int>::value_type("axeFriendDistance",distanceFriends[2]));
-    evalParams.insert(map<string,int>::value_type("distanceFromCenter",distanceFromCenter));
-
 }
 
 void GameInfo::doAction(int action) {
   Undo dummy;
-  map<string,int> dummyMap;
-  tryAction(action, dummy, dummyMap);
+  int dummy1, dummy2, dummy3, dummy4;
+  tryAction(action, dummy, dummy1, dummy2, dummy3, dummy4);
   cout << action << ' ';
 }
 

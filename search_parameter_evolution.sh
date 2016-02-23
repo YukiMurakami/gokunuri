@@ -95,7 +95,8 @@ function search_param() {
 beginAmplitude=$amplitude
 for i in $(seq 10); do
 	echo "=== epoch $i ==="
-	for weapon in $(seq 0 2); do
+#	for weapon in $(seq 0 2); do
+        for weapon in 1; do
 		amplitude=$beginAmplitude
 		search_param $weapon
 	done
